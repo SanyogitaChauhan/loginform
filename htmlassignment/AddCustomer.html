@@ -1,0 +1,146 @@
+<html>
+<style>
+    .firstbox {
+        height: 100vh;
+        width: 100vw;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .secondbox {
+        height: auto;
+        width: 800px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+    }
+</style>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <form class="row g-3">
+        <div class="firstbox">
+            <div class="secondbox">
+                <div>
+                    <h3><b>Customer Details</b></h3>
+                </div>
+                <div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input id="fname" type="text" class="form-control" placeholder="First name"
+                                aria-label="First name">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="lname" type="text" class="form-control" placeholder="Last name"
+                                aria-label="Last name">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="street" type="text" class="form-control" placeholder="Street"
+                                aria-label="street">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="address" type="text" class="form-control" placeholder="Address"
+                                aria-label="Address">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="city" type="text" class="form-control" placeholder="City" aria-label="City">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="state" type="text" class="form-control" placeholder="State" aria-label="state">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="email" type="email" class="form-control" placeholder="Email" aria-label="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <input id="number" type="number" class="form-control" placeholder="phone"
+                                aria-label="Phone">
+                        </div>
+                        <div class="col-12">
+                            <button onclick="goBack()" class="btn btn-primary" type="button">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script>
+    var userdata = [];
+    var firstn = document.getElementById("fname");
+    var lastn = document.getElementById("lname");
+    var strt = document.getElementById("street");
+    var adds = document.getElementById("address");
+    var city = document.getElementById("city");
+    var state = document.getElementById("state");
+    var email = document.getElementById("email");
+    var pnum = document.getElementById("number");
+
+
+    function goBack() {
+        submitdata();
+        
+
+    }
+    async function submitdata() {
+        // userdata.push({
+        //     fname : firstn.value,
+        //     lname : lastn.value,
+        //     street : strt.value,
+        //     address : adds.value,
+        //     city : city.value,
+        //     state : state.value,
+        //     email : email.value,
+        //     number : num.value,
+        // });
+        // var userString = JSON.stringify(userdata);
+        // localStorage.setItem("userdata", userString);
+        const token = localStorage.getItem("auth_token")
+        const body = {
+            "first_name": firstn.value,
+            "last_name": lastn.value,
+            "street": strt.value,
+            "address": adds.value,
+            "city": city.value,
+            "state": state.value,
+            "email": email.value,
+            "phone": pnum.value,
+        }
+        console.log("body", body)
+    fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=create",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            })
+            .then(res => res.json())
+            .then(response => {
+                console.log("response", response)
+                if (resposne) {
+                    history.go(-1);
+                }
+            })
+            .catch(error => {
+                console.log("error", error)
+            })
+            
+    }
+</script>
+
+</html>

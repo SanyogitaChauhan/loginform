@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login Screen</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+        function submitCredential() {
+            var login_id = document.getElementById("login_id").value
+            var password = document.getElementById("password").value
+            console.log("BOody",)
+
+            fetch('https://qa2.sunbasedata.com/sunbase/portal/api/assignment_auth.jsp', {
+                method: 'POST',
+                body: JSON.stringify(
+                    {
+                        "login_id": login_id,
+                        "password": password
+                    }
+                )
+            }).then(response => response.json())                      
+              .then(response => {
+                console.log("response", response)
+                localStorage.setItem("auth_token", response.access_token);
+                window.location.href = "list.html"
+
+              })
+              .catch(error => {
+                console.log('eerror', error);
+              }
+            )
+        }
+    </script>
+</head>
+
+<body>
+    <div class="center">
+        <h1>Login Page</h1>
+        <form method="post">
+            <div class="txt_field">
+                <input type="text" id="login_id" required>
+                <span></span>
+                <label>Login id</label>
+            </div>
+            <div class="txt_field">
+                <input type="password" id="password" required>
+                <span></span>
+                <label>Password</label>
+            </div>
+            <br>
+            <input id="submit" type="button" value="Submit" onclick="submitCredential()">
+        </form>
+    </div>
+</body>
+
+</html>
